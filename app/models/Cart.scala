@@ -1,36 +1,30 @@
 package models
 
-import play.api.libs.json.Json
 import models.Item.Item
+import play.api.libs.json.Json
 
+import scala.collection.mutable.ListBuffer
 /**
  * Created by beta on 26/10/15.
  */
 object Cart {
-  case class Cart(code: String, email: String,status: String,items:List[Item])
+  case class CartModel(code: String, email: String,status: String,items:List[Item])
 
-  implicit val cartWrites = Json.writes[Cart]
-  implicit val cartReads = Json.reads[Cart]
+  implicit val cartWrites = Json.writes[CartModel]
+  implicit val cartReads = Json.reads[CartModel]
 
-  var carts = List(new Cart("initial","initial","initial",Item.items))
+  var carts = ListBuffer(new CartModel("initial","initial","initial",Item.items))
 
-  def addCarts(cart: Cart) = carts = carts ::: List(cart)
-  def updateCarts(cart: Cart): Unit ={
+  def addCarts(cart: CartModel) = carts+=cart
+  def updateCarts(cart: CartModel)={
     removeOne(cart)
 
     addCarts(cart)
 
   }
 
-  def removeOne(cart: Cart) {
-    var i=0
-    var remove=0
-    for (c <- carts){
-      if(c.code.equalsIgnoreCase(cart.code)){
-        i -> remove
-      }
-      i+1
-    }
-    carts.dropRight(remove)
+  private def removeOne(cart: CartModel) {
+    carts= carts.filter(x => !x.code.equalsIgnoreCase(cart.code))
+
   }
 }

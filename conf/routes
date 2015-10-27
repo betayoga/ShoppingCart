@@ -4,9 +4,7 @@
 
 # Home page
 
-GET     /listCarts                        controllers.CartControllers.listCarts
-POST    /saveCart                         controllers.CartControllers.saveCart
-POST    /modifyCart                       controllers.CartControllers.updateCart
+GET     /index                  controllers.UserCartController.listCarts
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file)
